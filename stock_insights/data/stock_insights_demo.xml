@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- 
+            Demo Data for Stock Insights
+            ============================
+            
+            This demo data creates sample configuration settings.
+            Actual report data will be generated from the stock and stock_account
+            demo data that Odoo provides.
+            
+            Note: The SQL view models automatically pull data from existing
+            stock.quant, stock.move, and related tables. No additional demo
+            records are needed for the reports themselves.
+        -->
+
+        <!-- Demo Configuration with slightly different thresholds -->
+        <record id="demo_config_main_company" model="stock.insights.config">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="aging_band_1">30</field>
+            <field name="aging_band_2">60</field>
+            <field name="aging_band_3">90</field>
+            <field name="abc_class_a_threshold">80.0</field>
+            <field name="abc_class_b_threshold">95.0</field>
+            <field name="low_stock_days">7</field>
+            <field name="overstock_days">90</field>
+            <field name="dead_stock_days">180</field>
+            <field name="consumption_period_days">90</field>
+        </record>
+
+        <!-- 
+            Note on Demo Data Strategy:
+            
+            Stock Insights reports are SQL views that aggregate existing inventory data.
+            When installed alongside stock's demo data, the reports will automatically
+            show meaningful information based on:
+            
+            1. stock.quant records (current inventory levels)
+            2. stock.move records (historical movements for aging/consumption)
+            3. stock.warehouse.orderpoint records (reorder rules)
+            4. stock.valuation.layer records (inventory values)
+            
+            No additional product or movement data needs to be created here.
+            The reports will reflect whatever demo data exists in the stock module.
+        -->
+
+    </data>
+</odoo>

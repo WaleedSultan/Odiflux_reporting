@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Configuration Form View -->
+    <record id="stock_insights_config_view_form" model="ir.ui.view">
+        <field name="name">stock.insights.config.form</field>
+        <field name="model">stock.insights.config</field>
+        <field name="arch" type="xml">
+            <form string="Stock Insights Configuration">
+                <sheet>
+                    <group>
+                        <group string="Company">
+                            <field name="company_id" options="{'no_create': True}"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Aging Bands" name="aging">
+                            <group>
+                                <group string="Age Band Thresholds (Days)">
+                                    <field name="aging_band_1" help="e.g., 30 = 0-30 days"/>
+                                    <field name="aging_band_2" help="e.g., 60 = 31-60 days"/>
+                                    <field name="aging_band_3" help="e.g., 90 = 61-90 days (above = 90+)"/>
+                                </group>
+                            </group>
+                            <div class="alert alert-info" role="alert">
+                                <strong>Note:</strong> Aging bands define how inventory age is categorized in reports.
+                                Band 1 covers 0 to the threshold, Band 2 from Band 1+1 to threshold, etc.
+                            </div>
+                        </page>
+                        <page string="ABC Classification" name="abc">
+                            <group>
+                                <group string="Cumulative Value Thresholds (%)">
+                                    <field name="abc_class_a_threshold"/>
+                                    <field name="abc_class_b_threshold"/>
+                                </group>
+                            </group>
+                            <div class="alert alert-info" role="alert">
+                                <strong>Pareto (80/20) Principle:</strong>
+                                <ul>
+                                    <li><strong>Class A:</strong> Top items up to threshold (default 80%) - vital few, high value</li>
+                                    <li><strong>Class B:</strong> Next items up to threshold (default 95%) - moderate importance</li>
+                                    <li><strong>Class C:</strong> Remaining items - trivial many, low value</li>
+                                </ul>
+                            </div>
+                        </page>
+                        <page string="Stock Levels" name="stock_levels">
+                            <group>
+                                <group string="Coverage Thresholds (Days)">
+                                    <field name="low_stock_days"/>
+                                    <field name="overstock_days"/>
+                                    <field name="dead_stock_days"/>
+                                </group>
+                                <group string="Analysis Period">
+                                    <field name="consumption_period_days"/>
+                                </group>
+                            </group>
+                            <div class="alert alert-info" role="alert">
+                                <strong>Stock Status Definitions:</strong>
+                                <ul>
+                                    <li><strong>Low Stock:</strong> Less than X days of coverage remaining</li>
+                                    <li><strong>Overstock:</strong> More than Y days of coverage on hand</li>
+                                    <li><strong>Dead Stock:</strong> No movement for Z days or more</li>
+                                </ul>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button name="action_reset_defaults" string="Reset to Defaults" type="object" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Configuration Tree View -->
+    <record id="stock_insights_config_view_tree" model="ir.ui.view">
+        <field name="name">stock.insights.config.tree</field>
+        <field name="model">stock.insights.config</field>
+        <field name="arch" type="xml">
+            <list string="Stock Insights Configuration" create="1" edit="1">
+                <field name="company_id"/>
+                <field name="aging_band_1"/>
+                <field name="aging_band_2"/>
+                <field name="aging_band_3"/>
+                <field name="abc_class_a_threshold"/>
+                <field name="abc_class_b_threshold"/>
+                <field name="low_stock_days"/>
+                <field name="dead_stock_days"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Configuration Action -->
+    <record id="action_stock_insights_config" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">stock.insights.config</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create configuration for your company
+            </p>
+            <p>
+                Configure aging bands, ABC classification thresholds, and stock level parameters.
+            </p>
+        </field>
+    </record>
+
+</odoo>

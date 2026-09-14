@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_insights_config_analyst,stock.insights.config.analyst,model_stock_insights_config,group_stock_insights_analyst,1,0,0,0
+access_stock_insights_config_manager,stock.insights.config.manager,model_stock_insights_config,group_stock_insights_manager,1,1,1,1
+access_stock_aging_report_analyst,stock.aging.report.analyst,model_stock_aging_report,group_stock_insights_analyst,1,0,0,0
+access_stock_aging_report_manager,stock.aging.report.manager,model_stock_aging_report,group_stock_insights_manager,1,0,0,0
+access_stock_abc_report_analyst,stock.abc.report.analyst,model_stock_abc_report,group_stock_insights_analyst,1,0,0,0
+access_stock_abc_report_manager,stock.abc.report.manager,model_stock_abc_report,group_stock_insights_manager,1,0,0,0
+access_stock_kpi_analyst,stock.kpi.analyst,model_stock_kpi,group_stock_insights_analyst,1,0,0,0
+access_stock_kpi_manager,stock.kpi.manager,model_stock_kpi,group_stock_insights_manager,1,0,0,0
+access_stock_kpi_product_analyst,stock.kpi.product.analyst,model_stock_kpi_product,group_stock_insights_analyst,1,0,0,0
+access_stock_kpi_product_manager,stock.kpi.product.manager,model_stock_kpi_product,group_stock_insights_manager,1,0,0,0
+access_stock_coverage_report_analyst,stock.coverage.report.analyst,model_stock_coverage_report,group_stock_insights_analyst,1,0,0,0
+access_stock_coverage_report_manager,stock.coverage.report.manager,model_stock_coverage_report,group_stock_insights_manager,1,0,0,0

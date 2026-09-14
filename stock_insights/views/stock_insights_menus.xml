@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- 
+        Stock Insights Menu Structure
+        ============================
+        
+        As application=True, this module gets its own top-level app menu.
+        Also adds entries under Inventory > Reporting for convenience.
+    -->
+
+    <!-- ============================================== -->
+    <!-- Main App Menu (Stock Insights Application) -->
+    <!-- ============================================== -->
+
+    <menuitem id="menu_stock_insights_root"
+              name="Stock Insights"
+              web_icon="stock_insights,static/description/icon.png"
+              sequence="45"
+              groups="group_stock_insights_analyst"/>
+
+    <!-- Dashboard Section -->
+    <menuitem id="menu_stock_insights_dashboard"
+              name="Dashboard"
+              parent="menu_stock_insights_root"
+              sequence="10"/>
+
+    <menuitem id="menu_stock_insights_dashboard_kpi"
+              name="KPI Overview"
+              parent="menu_stock_insights_dashboard"
+              action="action_stock_kpi"
+              sequence="10"/>
+
+    <menuitem id="menu_stock_insights_dashboard_health"
+              name="Stock Health"
+              parent="menu_stock_insights_dashboard"
+              action="action_stock_kpi_product"
+              sequence="20"/>
+
+    <!-- Reports Section -->
+    <menuitem id="menu_stock_insights_reports"
+              name="Reports"
+              parent="menu_stock_insights_root"
+              sequence="20"/>
+
+    <menuitem id="menu_stock_insights_reports_aging"
+              name="Stock Aging"
+              parent="menu_stock_insights_reports"
+              action="action_stock_aging_report"
+              sequence="10"/>
+
+    <menuitem id="menu_stock_insights_reports_abc"
+              name="ABC Classification"
+              parent="menu_stock_insights_reports"
+              action="action_stock_abc_report"
+              sequence="20"/>
+
+    <menuitem id="menu_stock_insights_reports_coverage"
+              name="Coverage &amp; Reorder"
+              parent="menu_stock_insights_reports"
+              action="action_stock_coverage_report"
+              sequence="30"/>
+
+    <!-- Configuration Section -->
+    <menuitem id="menu_stock_insights_config"
+              name="Configuration"
+              parent="menu_stock_insights_root"
+              sequence="90"
+              groups="group_stock_insights_manager"/>
+
+    <menuitem id="menu_stock_insights_config_settings"
+              name="Settings"
+              parent="menu_stock_insights_config"
+              action="action_stock_insights_config"
+              sequence="10"/>
+
+    <!-- ============================================== -->
+    <!-- Integration with Inventory App Reporting Menu -->
+    <!-- ============================================== -->
+
+    <!-- Add submenu under Inventory > Reporting -->
+    <menuitem id="menu_inventory_stock_insights"
+              name="Stock Insights"
+              parent="stock.menu_warehouse_report"
+              sequence="50"
+              groups="group_stock_insights_analyst"/>
+
+    <menuitem id="menu_inventory_stock_insights_aging"
+              name="Stock Aging"
+              parent="menu_inventory_stock_insights"
+              action="action_stock_aging_report"
+              sequence="10"/>
+
+    <menuitem id="menu_inventory_stock_insights_abc"
+              name="ABC Classification"
+              parent="menu_inventory_stock_insights"
+              action="action_stock_abc_report"
+              sequence="20"/>
+
+    <menuitem id="menu_inventory_stock_insights_coverage"
+              name="Coverage Analysis"
+              parent="menu_inventory_stock_insights"
+              action="action_stock_coverage_report"
+              sequence="30"/>
+
+    <menuitem id="menu_inventory_stock_insights_health"
+              name="Stock Health"
+              parent="menu_inventory_stock_insights"
+              action="action_stock_kpi_product"
+              sequence="40"/>
+
+</odoo>

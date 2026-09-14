@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Stock Insights - Inventory BI & Analytics</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 { color: #714b67; }
+        h1 { border-bottom: 3px solid #714b67; padding-bottom: 10px; }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .feature-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid #714b67;
+        }
+        .feature-card h3 {
+            margin-top: 0;
+            color: #714b67;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        .badge-success { background: #d4edda; color: #155724; }
+        .badge-info { background: #d1ecf1; color: #0c5460; }
+        .badge-warning { background: #fff3cd; color: #856404; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        .highlight {
+            background: linear-gradient(135deg, #714b67 0%, #8e6384 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        .highlight h2 { color: white; margin-top: 0; }
+        code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        th { background: #f8f9fa; }
+    </style>
+</head>
+<body>
+
+<h1>📊 Stock Insights</h1>
+<p><strong>Inventory Business Intelligence & Reporting for Odoo 19</strong></p>
+
+<p>
+    <span class="badge badge-success">Community Compatible</span>
+    <span class="badge badge-info">Read-Only Analytics</span>
+    <span class="badge badge-warning">No Enterprise Dependencies</span>
+</p>
+
+<p>
+    Transform your inventory data into actionable insights. Stock Insights provides 
+    comprehensive analytics and reporting for your Odoo inventory without modifying 
+    any stock data.
+</p>
+
+<div class="highlight">
+    <h2>🎯 Key Benefits</h2>
+    <ul>
+        <li><strong>Reduce carrying costs</strong> by identifying aging and dead stock</li>
+        <li><strong>Optimize purchasing</strong> with ABC classification and coverage analysis</li>
+        <li><strong>Prevent stockouts</strong> with proactive low-stock alerts</li>
+        <li><strong>Make data-driven decisions</strong> with real-time KPI dashboards</li>
+    </ul>
+</div>
+
+<h2>Features</h2>
+
+<div class="feature-grid">
+    <div class="feature-card">
+        <h3>📈 Stock Aging Analysis</h3>
+        <p>Track inventory age across configurable bands:</p>
+        <ul>
+            <li>0-30 days (Fresh stock)</li>
+            <li>31-60 days (Aging)</li>
+            <li>61-90 days (Old)</li>
+            <li>90+ days (Slow moving)</li>
+        </ul>
+        <p>Identify slow-moving inventory before it becomes obsolete.</p>
+    </div>
+
+    <div class="feature-card">
+        <h3>🔤 ABC Classification</h3>
+        <p>Pareto (80/20) analysis for inventory prioritization:</p>
+        <ul>
+            <li><strong>Class A:</strong> High-value items (~80% value, ~20% SKUs)</li>
+            <li><strong>Class B:</strong> Medium-value items (~15% value)</li>
+            <li><strong>Class C:</strong> Low-value items (~5% value)</li>
+        </ul>
+        <p>Focus resources on your most important products.</p>
+    </div>
+
+    <div class="feature-card">
+        <h3>📊 KPI Dashboard</h3>
+        <p>At-a-glance inventory health metrics:</p>
+        <ul>
+            <li>Total stock value</li>
+            <li>Active vs. dormant SKUs</li>
+            <li>Out-of-stock alerts</li>
+            <li>Overstock identification</li>
+            <li>Dead stock warnings</li>
+        </ul>
+    </div>
+
+    <div class="feature-card">
+        <h3>📋 Coverage & Reorder Analysis</h3>
+        <p>Days of cover and reorder point comparison:</p>
+        <ul>
+            <li>Stock coverage (days until stockout)</li>
+            <li>Below minimum indicators</li>
+            <li>Above maximum alerts</li>
+            <li>Forecasted quantities</li>
+        </ul>
+        <p>Never miss a reorder or overstock again.</p>
+    </div>
+</div>
+
+<h2>Report Views</h2>
+<p>All reports include multiple view types for flexible analysis:</p>
+<table>
+    <tr>
+        <th>View Type</th>
+        <th>Use Case</th>
+    </tr>
+    <tr>
+        <td><strong>List View</strong></td>
+        <td>Detailed line-by-line data with sorting and export</td>
+    </tr>
+    <tr>
+        <td><strong>Pivot View</strong></td>
+        <td>Multi-dimensional analysis with drag-and-drop grouping</td>
+    </tr>
+    <tr>
+        <td><strong>Graph View</strong></td>
+        <td>Visual charts (bar, pie, line) for presentations</td>
+    </tr>
+</table>
+
+<h2>Filtering & Grouping</h2>
+<p>Powerful filters available on all reports:</p>
+<ul>
+    <li>Filter by <strong>Warehouse</strong></li>
+    <li>Filter by <strong>Location</strong></li>
+    <li>Filter by <strong>Product Category</strong></li>
+    <li>Filter by <strong>Company</strong> (multi-company support)</li>
+    <li>Group by any dimension for aggregated analysis</li>
+</ul>
+
+<h2>Security</h2>
+<p>Role-based access control:</p>
+<ul>
+    <li><strong>Analyst:</strong> Read-only access to all reports</li>
+    <li><strong>Manager:</strong> Full access including configuration settings</li>
+</ul>
+<p>Multi-company record rules ensure data isolation.</p>
+
+<h2>Technical Details</h2>
+<table>
+    <tr><th>Attribute</th><th>Value</th></tr>
+    <tr><td>Technical Name</td><td><code>stock_insights</code></td></tr>
+    <tr><td>Version</td><td>19.0.1.0.0</td></tr>
+    <tr><td>License</td><td>OPL-1 (Odoo Proprietary License)</td></tr>
+    <tr><td>Dependencies</td><td><code>stock</code>, <code>stock_account</code></td></tr>
+    <tr><td>Category</td><td>Inventory</td></tr>
+</table>
+
+<h2>Installation</h2>
+<ol>
+    <li>Place the <code>stock_insights</code> folder in your Odoo addons path</li>
+    <li>Update the apps list: <em>Apps → Update Apps List</em></li>
+    <li>Search for "Stock Insights" and click Install</li>
+    <li>Access via the Stock Insights app or Inventory → Reporting → Stock Insights</li>
+</ol>
+
+<h2>Compatibility</h2>
+<ul>
+    <li>✅ Odoo 19 Community Edition</li>
+    <li>✅ Odoo 19 Enterprise Edition</li>
+    <li>✅ Multi-company environments</li>
+    <li>✅ Multi-warehouse configurations</li>
+</ul>
+
+<h2>Roadmap</h2>
+<p>Part of the <strong>Insights Suite</strong> - upcoming modules:</p>
+<ul>
+    <li>📈 <strong>Sales Insights</strong> - Sales analytics and forecasting</li>
+    <li>💰 <strong>Finance Insights</strong> - Financial reporting and KPIs</li>
+    <li>👥 <strong>HR Insights</strong> - Workforce analytics</li>
+</ul>
+
+<hr>
+<p style="text-align: center; color: #666;">
+    <em>Stock Insights - Making inventory data work for you</em>
+</p>
+
+</body>
+</html>

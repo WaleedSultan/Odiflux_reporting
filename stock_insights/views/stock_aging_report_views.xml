@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Stock Aging Report - List View -->
+    <record id="stock_aging_report_view_list" model="ir.ui.view">
+        <field name="name">stock.aging.report.list</field>
+        <field name="model">stock.aging.report</field>
+        <field name="arch" type="xml">
+            <list string="Stock Aging Report" create="0" edit="0" delete="0"
+                  decoration-danger="aging_band == '90_plus'"
+                  decoration-warning="aging_band == '61_90'"
+                  decoration-info="aging_band == '31_60'">
+                <field name="product_id"/>
+                <field name="categ_id" optional="show"/>
+                <field name="warehouse_id"/>
+                <field name="location_id" optional="hide"/>
+                <field name="lot_id" optional="hide"/>
+                <field name="quantity" sum="Total Qty"/>
+                <field name="unit_cost" optional="hide"/>
+                <field name="total_value" sum="Total Value"/>
+                <field name="stock_age_days"/>
+                <field name="aging_band" widget="badge"
+                       decoration-success="aging_band == '0_30'"
+                       decoration-info="aging_band == '31_60'"
+                       decoration-warning="aging_band == '61_90'"
+                       decoration-danger="aging_band == '90_plus'"/>
+                <field name="band_0_30_qty" optional="hide" sum="0-30d Qty"/>
+                <field name="band_31_60_qty" optional="hide" sum="31-60d Qty"/>
+                <field name="band_61_90_qty" optional="hide" sum="61-90d Qty"/>
+                <field name="band_90_plus_qty" optional="hide" sum="90+d Qty"/>
+                <field name="band_0_30_value" optional="show" sum="0-30d Value"/>
+                <field name="band_31_60_value" optional="show" sum="31-60d Value"/>
+                <field name="band_61_90_value" optional="show" sum="61-90d Value"/>
+                <field name="band_90_plus_value" optional="show" sum="90+d Value"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Stock Aging Report - Pivot View -->
+    <record id="stock_aging_report_view_pivot" model="ir.ui.view">
+        <field name="name">stock.aging.report.pivot</field>
+        <field name="model">stock.aging.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Stock Aging Analysis" display_quantity="1">
+                <field name="aging_band" type="col"/>
+                <field name="categ_id" type="row"/>
+                <field name="total_value" type="measure"/>
+                <field name="quantity" type="measure"/>
+                <field name="band_0_30_value" type="measure"/>
+                <field name="band_31_60_value" type="measure"/>
+                <field name="band_61_90_value" type="measure"/>
+                <field name="band_90_plus_value" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Stock Aging Report - Graph View -->
+    <record id="stock_aging_report_view_graph" model="ir.ui.view">
+        <field name="name">stock.aging.report.graph</field>
+        <field name="model">stock.aging.report</field>
+        <field name="arch" type="xml">
+            <graph string="Stock Aging Analysis" type="bar" stacked="1">
+                <field name="aging_band"/>
+                <field name="total_value" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Stock Aging Report - Search View -->
+    <record id="stock_aging_report_view_search" model="ir.ui.view">
+        <field name="name">stock.aging.report.search</field>
+        <field name="model">stock.aging.report</field>
+        <field name="arch" type="xml">
+            <search string="Stock Aging Search">
+                <field name="product_id"/>
+                <field name="categ_id"/>
+                <field name="warehouse_id"/>
+                <field name="location_id"/>
+                <field name="lot_id"/>
+                <separator/>
+                <filter name="filter_0_30" string="0-30 Days" domain="[('aging_band', '=', '0_30')]"/>
+                <filter name="filter_31_60" string="31-60 Days" domain="[('aging_band', '=', '31_60')]"/>
+                <filter name="filter_61_90" string="61-90 Days" domain="[('aging_band', '=', '61_90')]"/>
+                <filter name="filter_90_plus" string="90+ Days" domain="[('aging_band', '=', '90_plus')]"/>
+                <separator/>
+                <filter name="filter_old_stock" string="Old Stock (60+ Days)" domain="[('stock_age_days', '&gt;=', 60)]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="groupby_aging_band" string="Aging Band" context="{'group_by': 'aging_band'}"/>
+                    <filter name="groupby_category" string="Category" context="{'group_by': 'categ_id'}"/>
+                    <filter name="groupby_warehouse" string="Warehouse" context="{'group_by': 'warehouse_id'}"/>
+                    <filter name="groupby_location" string="Location" context="{'group_by': 'location_id'}"/>
+                    <filter name="groupby_product" string="Product" context="{'group_by': 'product_id'}"/>
+                    <filter name="groupby_company" string="Company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Stock Aging Report - Action -->
+    <record id="action_stock_aging_report" model="ir.actions.act_window">
+        <field name="name">Stock Aging</field>
+        <field name="res_model">stock.aging.report</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="search_view_id" ref="stock_aging_report_view_search"/>
+        <field name="context">{'search_default_groupby_aging_band': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No stock aging data available
+            </p>
+            <p>
+                This report shows inventory age distribution across configurable bands.
+                Ensure you have stock on hand to see aging analysis.
+            </p>
+        </field>
+    </record>
+
+</odoo>

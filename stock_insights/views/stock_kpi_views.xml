@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Stock KPI Dashboard - List View -->
+    <record id="stock_kpi_view_list" model="ir.ui.view">
+        <field name="name">stock.kpi.list</field>
+        <field name="model">stock.kpi</field>
+        <field name="arch" type="xml">
+            <list string="Stock KPI Dashboard" create="0" edit="0" delete="0">
+                <field name="warehouse_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="total_stock_value" sum="Total"/>
+                <field name="total_skus"/>
+                <field name="total_quantity" sum="Total"/>
+                <field name="active_skus"/>
+                <field name="dormant_skus"/>
+                <field name="out_of_stock_skus" 
+                       decoration-danger="out_of_stock_skus > 0"/>
+                <field name="low_stock_skus" 
+                       decoration-warning="low_stock_skus > 0"/>
+                <field name="overstock_skus" 
+                       decoration-info="overstock_skus > 0"/>
+                <field name="dead_stock_skus" 
+                       decoration-muted="dead_stock_skus > 0"/>
+                <field name="low_stock_value" optional="show" sum="Total"/>
+                <field name="overstock_value" optional="show" sum="Total"/>
+                <field name="dead_stock_value" optional="show" sum="Total"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Stock KPI - Pivot View -->
+    <record id="stock_kpi_view_pivot" model="ir.ui.view">
+        <field name="name">stock.kpi.pivot</field>
+        <field name="model">stock.kpi</field>
+        <field name="arch" type="xml">
+            <pivot string="Stock KPIs">
+                <field name="warehouse_id" type="row"/>
+                <field name="total_stock_value" type="measure"/>
+                <field name="total_skus" type="measure"/>
+                <field name="out_of_stock_skus" type="measure"/>
+                <field name="low_stock_skus" type="measure"/>
+                <field name="overstock_skus" type="measure"/>
+                <field name="dead_stock_skus" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Stock KPI - Graph View -->
+    <record id="stock_kpi_view_graph" model="ir.ui.view">
+        <field name="name">stock.kpi.graph</field>
+        <field name="model">stock.kpi</field>
+        <field name="arch" type="xml">
+            <graph string="Stock Value by Warehouse" type="bar">
+                <field name="warehouse_id"/>
+                <field name="total_stock_value" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Stock KPI - Search View -->
+    <record id="stock_kpi_view_search" model="ir.ui.view">
+        <field name="name">stock.kpi.search</field>
+        <field name="model">stock.kpi</field>
+        <field name="arch" type="xml">
+            <search string="Stock KPI Search">
+                <field name="warehouse_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <separator/>
+                <filter name="filter_has_issues" string="Has Issues" 
+                        domain="['|', '|', '|', ('out_of_stock_skus', '>', 0), ('low_stock_skus', '>', 0), ('overstock_skus', '>', 0), ('dead_stock_skus', '>', 0)]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="groupby_warehouse" string="Warehouse" context="{'group_by': 'warehouse_id'}"/>
+                    <filter name="groupby_company" string="Company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Stock KPI Action -->
+    <record id="action_stock_kpi" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">stock.kpi</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="search_view_id" ref="stock_kpi_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No KPI data available
+            </p>
+            <p>
+                The dashboard shows aggregated inventory KPIs per warehouse including
+                stock values, SKU counts, and stock health indicators.
+            </p>
+        </field>
+    </record>
+
+    <!-- ============================================== -->
+    <!-- Stock KPI Product Detail Views -->
+    <!-- ============================================== -->
+
+    <!-- Stock KPI Product - List View -->
+    <record id="stock_kpi_product_view_list" model="ir.ui.view">
+        <field name="name">stock.kpi.product.list</field>
+        <field name="model">stock.kpi.product</field>
+        <field name="arch" type="xml">
+            <list string="Product Stock Details" create="0" edit="0" delete="0"
+                  decoration-danger="stock_status == 'out_of_stock'"
+                  decoration-warning="stock_status in ('low_stock', 'dead_stock')"
+                  decoration-info="stock_status == 'overstock'">
+                <field name="product_id"/>
+                <field name="categ_id" optional="show"/>
+                <field name="warehouse_id"/>
+                <field name="qty_on_hand" sum="Total"/>
+                <field name="unit_cost" optional="hide"/>
+                <field name="stock_value" sum="Total"/>
+                <field name="consumed_qty_90d" optional="show"/>
+                <field name="daily_consumption" optional="hide"/>
+                <field name="days_of_cover"/>
+                <field name="last_move_date" optional="show"/>
+                <field name="days_since_movement" optional="hide"/>
+                <field name="stock_status" widget="badge"
+                       decoration-success="stock_status == 'normal'"
+                       decoration-danger="stock_status == 'out_of_stock'"
+                       decoration-warning="stock_status in ('low_stock', 'dead_stock')"
+                       decoration-info="stock_status == 'overstock'"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Stock KPI Product - Pivot View -->
+    <record id="stock_kpi_product_view_pivot" model="ir.ui.view">
+        <field name="name">stock.kpi.product.pivot</field>
+        <field name="model">stock.kpi.product</field>
+        <field name="arch" type="xml">
+            <pivot string="Product Stock Analysis">
+                <field name="stock_status" type="col"/>
+                <field name="categ_id" type="row"/>
+                <field name="stock_value" type="measure"/>
+                <field name="qty_on_hand" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Stock KPI Product - Graph View -->
+    <record id="stock_kpi_product_view_graph" model="ir.ui.view">
+        <field name="name">stock.kpi.product.graph</field>
+        <field name="model">stock.kpi.product</field>
+        <field name="arch" type="xml">
+            <graph string="Stock Status Distribution" type="pie">
+                <field name="stock_status"/>
+                <field name="stock_value" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Stock KPI Product - Search View -->
+    <record id="stock_kpi_product_view_search" model="ir.ui.view">
+        <field name="name">stock.kpi.product.search</field>
+        <field name="model">stock.kpi.product</field>
+        <field name="arch" type="xml">
+            <search string="Product Stock Search">
+                <field name="product_id"/>
+                <field name="categ_id"/>
+                <field name="warehouse_id"/>
+                <separator/>
+                <filter name="filter_out_of_stock" string="Out of Stock" domain="[('stock_status', '=', 'out_of_stock')]"/>
+                <filter name="filter_low_stock" string="Low Stock" domain="[('stock_status', '=', 'low_stock')]"/>
+                <filter name="filter_normal" string="Normal" domain="[('stock_status', '=', 'normal')]"/>
+                <filter name="filter_overstock" string="Overstock" domain="[('stock_status', '=', 'overstock')]"/>
+                <filter name="filter_dead_stock" string="Dead Stock" domain="[('stock_status', '=', 'dead_stock')]"/>
+                <separator/>
+                <filter name="filter_needs_attention" string="Needs Attention" 
+                        domain="[('stock_status', 'in', ['out_of_stock', 'low_stock', 'dead_stock'])]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="groupby_status" string="Stock Status" context="{'group_by': 'stock_status'}"/>
+                    <filter name="groupby_category" string="Category" context="{'group_by': 'categ_id'}"/>
+                    <filter name="groupby_warehouse" string="Warehouse" context="{'group_by': 'warehouse_id'}"/>
+                    <filter name="groupby_company" string="Company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Stock KPI Product Action -->
+    <record id="action_stock_kpi_product" model="ir.actions.act_window">
+        <field name="name">Stock Health</field>
+        <field name="res_model">stock.kpi.product</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="search_view_id" ref="stock_kpi_product_view_search"/>
+        <field name="context">{'search_default_filter_needs_attention': 0}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No product stock data available
+            </p>
+            <p>
+                View detailed stock health metrics for each product including
+                coverage days, consumption rates, and stock status indicators.
+            </p>
+        </field>
+    </record>
+
+</odoo>
