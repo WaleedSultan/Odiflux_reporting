@@ -194,11 +194,8 @@ class StockAgingReport(models.Model):
                 aq.company_id,
                 aq.lot_id,
                 aq.quantity,
-                COALESCE(
-                    svl.unit_cost,
-                    pt.standard_price
-                ) AS unit_cost,
-                aq.quantity * COALESCE(svl.unit_cost, pt.standard_price) AS total_value,
+                COALESCE((pp.standard_price->>aq.company_id::text)::numeric, 0) AS unit_cost,
+                aq.quantity * COALESCE((pp.standard_price->>aq.company_id::text)::numeric, 0) AS total_value,
                 aq.stock_age_days,
                 CASE
                     WHEN aq.stock_age_days <= 30 THEN '0_30'
@@ -212,21 +209,13 @@ class StockAgingReport(models.Model):
                 CASE WHEN aq.stock_age_days > 60 AND aq.stock_age_days <= 90 THEN aq.quantity ELSE 0 END AS band_61_90_qty,
                 CASE WHEN aq.stock_age_days > 90 THEN aq.quantity ELSE 0 END AS band_90_plus_qty,
                 -- Band values
-                CASE WHEN aq.stock_age_days <= 30 THEN aq.quantity * COALESCE(svl.unit_cost, pt.standard_price) ELSE 0 END AS band_0_30_value,
-                CASE WHEN aq.stock_age_days > 30 AND aq.stock_age_days <= 60 THEN aq.quantity * COALESCE(svl.unit_cost, pt.standard_price) ELSE 0 END AS band_31_60_value,
-                CASE WHEN aq.stock_age_days > 60 AND aq.stock_age_days <= 90 THEN aq.quantity * COALESCE(svl.unit_cost, pt.standard_price) ELSE 0 END AS band_61_90_value,
-                CASE WHEN aq.stock_age_days > 90 THEN aq.quantity * COALESCE(svl.unit_cost, pt.standard_price) ELSE 0 END AS band_90_plus_value
+                CASE WHEN aq.stock_age_days <= 30 THEN aq.quantity * COALESCE((pp.standard_price->>aq.company_id::text)::numeric, 0) ELSE 0 END AS band_0_30_value,
+                CASE WHEN aq.stock_age_days > 30 AND aq.stock_age_days <= 60 THEN aq.quantity * COALESCE((pp.standard_price->>aq.company_id::text)::numeric, 0) ELSE 0 END AS band_31_60_value,
+                CASE WHEN aq.stock_age_days > 60 AND aq.stock_age_days <= 90 THEN aq.quantity * COALESCE((pp.standard_price->>aq.company_id::text)::numeric, 0) ELSE 0 END AS band_61_90_value,
+                CASE WHEN aq.stock_age_days > 90 THEN aq.quantity * COALESCE((pp.standard_price->>aq.company_id::text)::numeric, 0) ELSE 0 END AS band_90_plus_value
             FROM aged_quants aq
             JOIN product_product pp ON pp.id = aq.product_id
             JOIN product_template pt ON pt.id = pp.product_tmpl_id
             JOIN stock_location sl ON sl.id = aq.location_id
-            LEFT JOIN LATERAL (
-                SELECT svl2.unit_cost
-                FROM stock_valuation_layer svl2
-                WHERE svl2.product_id = aq.product_id
-                  AND svl2.company_id = aq.company_id
-                ORDER BY svl2.create_date DESC
-                LIMIT 1
-            ) svl ON TRUE
             WHERE sl.usage = 'internal'
         """

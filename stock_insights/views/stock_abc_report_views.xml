@@ -90,7 +90,7 @@
                 <filter name="filter_with_stock" string="With Stock" domain="[('qty_on_hand', '&gt;', 0)]"/>
                 <filter name="filter_no_consumption" string="No Consumption" domain="[('consumption_qty', '=', 0)]"/>
                 <separator/>
-                <group expand="0" string="Group By">
+                <group>
                     <filter name="groupby_abc_class" string="ABC Class" context="{'group_by': 'abc_class'}"/>
                     <filter name="groupby_category" string="Category" context="{'group_by': 'categ_id'}"/>
                     <filter name="groupby_warehouse" string="Warehouse" context="{'group_by': 'warehouse_id'}"/>

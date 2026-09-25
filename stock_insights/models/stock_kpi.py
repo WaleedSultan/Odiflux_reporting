@@ -154,21 +154,14 @@ class StockKPI(models.Model):
                     sl.warehouse_id,
                     sq.product_id,
                     SUM(sq.quantity) AS qty_on_hand,
-                    COALESCE(
-                        (SELECT svl.unit_cost 
-                         FROM stock_valuation_layer svl 
-                         WHERE svl.product_id = sq.product_id 
-                           AND svl.company_id = sq.company_id
-                         ORDER BY svl.create_date DESC LIMIT 1),
-                        pt.standard_price
-                    ) AS unit_cost
+                    COALESCE((pp.standard_price->>sq.company_id::text)::numeric, 0) AS unit_cost
                 FROM stock_quant sq
                 JOIN stock_location sl ON sl.id = sq.location_id
                 JOIN product_product pp ON pp.id = sq.product_id
                 JOIN product_template pt ON pt.id = pp.product_tmpl_id
                 WHERE sl.usage = 'internal'
                   AND pt.type = 'product'
-                GROUP BY sq.company_id, sl.warehouse_id, sq.product_id, pt.standard_price
+                GROUP BY sq.company_id, sl.warehouse_id, sq.product_id, COALESCE((pp.standard_price->>sq.company_id::text)::numeric, 0)
                 HAVING SUM(sq.quantity) != 0
             ),
             consumption_90d AS (
@@ -396,14 +389,7 @@ class StockKPIProduct(models.Model):
                     pp.product_tmpl_id,
                     pt.categ_id,
                     SUM(sq.quantity) AS qty_on_hand,
-                    COALESCE(
-                        (SELECT svl.unit_cost 
-                         FROM stock_valuation_layer svl 
-                         WHERE svl.product_id = sq.product_id 
-                           AND svl.company_id = sq.company_id
-                         ORDER BY svl.create_date DESC LIMIT 1),
-                        pt.standard_price
-                    ) AS unit_cost
+                    COALESCE((pp.standard_price->>sq.company_id::text)::numeric, 0) AS unit_cost
                 FROM stock_quant sq
                 JOIN stock_location sl ON sl.id = sq.location_id
                 JOIN product_product pp ON pp.id = sq.product_id
@@ -411,7 +397,7 @@ class StockKPIProduct(models.Model):
                 WHERE sl.usage = 'internal'
                   AND pt.type = 'product'
                 GROUP BY sq.company_id, sl.warehouse_id, sq.product_id, 
-                         pp.product_tmpl_id, pt.categ_id, pt.standard_price
+                         pp.product_tmpl_id, pt.categ_id, COALESCE((pp.standard_price->>sq.company_id::text)::numeric, 0)
             ),
             consumption_90d AS (
                 SELECT
