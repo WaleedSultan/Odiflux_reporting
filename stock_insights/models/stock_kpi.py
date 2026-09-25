@@ -154,14 +154,7 @@ class StockKPI(models.Model):
                     sl.warehouse_id,
                     sq.product_id,
                     SUM(sq.quantity) AS qty_on_hand,
-                    COALESCE(
-                        (SELECT svl.unit_cost 
-                         FROM stock_valuation_layer svl 
-                         WHERE svl.product_id = sq.product_id 
-                           AND svl.company_id = sq.company_id
-                         ORDER BY svl.create_date DESC LIMIT 1),
-                        pt.standard_price
-                    ) AS unit_cost
+                    pt.standard_price AS unit_cost
                 FROM stock_quant sq
                 JOIN stock_location sl ON sl.id = sq.location_id
                 JOIN product_product pp ON pp.id = sq.product_id
@@ -396,14 +389,7 @@ class StockKPIProduct(models.Model):
                     pp.product_tmpl_id,
                     pt.categ_id,
                     SUM(sq.quantity) AS qty_on_hand,
-                    COALESCE(
-                        (SELECT svl.unit_cost 
-                         FROM stock_valuation_layer svl 
-                         WHERE svl.product_id = sq.product_id 
-                           AND svl.company_id = sq.company_id
-                         ORDER BY svl.create_date DESC LIMIT 1),
-                        pt.standard_price
-                    ) AS unit_cost
+                    pt.standard_price AS unit_cost
                 FROM stock_quant sq
                 JOIN stock_location sl ON sl.id = sq.location_id
                 JOIN product_product pp ON pp.id = sq.product_id
