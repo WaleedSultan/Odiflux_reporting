@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Seller block: print native company_registry (CR) with bilingual AR/EN label when set; do NOT add a second CR field. -->
+<!--
+        Bilingual invoice / CN / DN layout stubs.
+        Inherit native account.report_invoice_document.
+        Do NOT add ZATCA XML / TLV / CSID / clearance fields here.
+        QR: placement + size slot only — native l10n_sa_edi owns generation.
+        xpath should remain resilient vs l10n_sa / l10n_gcc_invoice overrides.
+    -->
+
+    <template id="report_invoice_document_odi_bilingual"
+              inherit_id="account.report_invoice_document"
+              priority="99">
+        <!-- Language-mode class on outer layout for CSS / font helpers -->
+        <xpath expr="//div[hasclass('page')]" position="attributes">
+            <attribute name="class" add="odi-gcc-bilingual-page" separator=" "/>
+        </xpath>
+
+        <!--
+            TODO(MVP): Header bilingual title block
+            - Tax Invoice / فاتورة ضريبية vs Simplified / فاتورة ضريبية مبسطة
+            - Invoice number, issue date/time, supply date if different
+            - Currency SAR when applicable
+        -->
+        <xpath expr="//div[hasclass('page')]" position="inside">
+            <div class="odi-gcc-bilingual-header-stub o_hidden"
+                 t-att-data-lang-mode="request.env['ir.config_parameter'].sudo().get_param('odi_gcc_bilingual_reports.lang_mode', 'bilingual')">
+                <!-- Placeholder: replace o_hidden when layout polished -->
+            </div>
+        </xpath>
+
+        <!--
+            TODO(MVP): Seller block — company.name_ar + address_ar + VAT (native vat)
+            TODO(MVP): Buyer block — partner.name_ar + address; Simplified B2C omit VAT per native rules
+            TODO(MVP): Lines — description AR/EN via product.name_ar fallback chain
+                 (name_ar → EN product name → move-line description),
+                 qty, unit excl. VAT, discount, taxable, VAT%, VAT amt
+            TODO(MVP): Totals — excl / VAT / incl
+            TODO(MVP): Credit Notes (CN) AND Debit Notes (DN) share this same
+                 QWeb inherit + QA path — reason + original invoice number/UUID
+                 reference for both move types (out_refund / in_refund and
+                 debit-note equivalents on the deployed localization).
+        -->
+
+        <!--
+            QR PLACEMENT ONLY
+            ==================
+            Reserve a fixed-size slot so native EDI QR (l10n_sa_edi) still renders
+            without layout collision. Do not generate QR here.
+            Regression: with l10n_sa_edi installed, QR still renders; without it, no crash.
+        -->
+        <xpath expr="//div[hasclass('page')]" position="inside">
+            <t t-set="odi_show_qr"
+               t-value="request.env['ir.config_parameter'].sudo().get_param('odi_gcc_bilingual_reports.show_qr_slot', 'True') not in ('False', '0', '')"/>
+            <div t-if="odi_show_qr"
+                 class="odi-gcc-qr-slot"
+                 style="min-width: 28mm; min-height: 28mm; margin-top: 4mm;"
+                 title="QR placement slot — filled by native EDI when present">
+                <!-- Native QR widget / img lands via l10n_sa_edi / theme inherit; keep empty. -->
+            </div>
+        </xpath>
+    </template>
+
+    <!--
+        CN + DN on the SAME QWeb / QA path (Odoo 19 account.report_invoice_document
+        already covers invoice, credit note, and debit note move types).
+        Do not fork a separate DN-only template in v1 — reinforce reason + origin
+        ref blocks once native nodes are confirmed on target build.
+        Acceptance: CN with reason+origin AND DN with reason+origin both pass
+        the same bilingual checklist.
+    -->
+</odoo>

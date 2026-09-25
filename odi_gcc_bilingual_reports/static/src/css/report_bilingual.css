@@ -1,0 +1,49 @@
+/* ODI GCC bilingual statutory report helpers
+ * Bundle OFL Arabic fonts under static/fonts/ and @font-face here.
+ * Do not claim ZATCA compliance — typography / layout only.
+ */
+
+@font-face {
+    font-family: "ODIArabic";
+    /* Drop IBMPlexSansArabic-Regular.ttf or NotoNaskhArabic-Regular.ttf into static/fonts/ */
+    src: url("/odi_gcc_bilingual_reports/static/fonts/IBMPlexSansArabic-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+.odi-gcc-bilingual-page {
+    font-family: "ODIArabic", "Noto Naskh Arabic", "DejaVu Sans", sans-serif;
+}
+
+.odi-gcc-bilingual-page[dir="rtl"],
+.odi-gcc-bilingual-page .odi-ar {
+    direction: rtl;
+    text-align: right;
+}
+
+.odi-gcc-bilingual-page .odi-en {
+    direction: ltr;
+    text-align: left;
+}
+
+.odi-gcc-bilingual-page .odi-stack-ar-en .odi-ar {
+    display: block;
+    font-size: 1em;
+}
+
+.odi-gcc-bilingual-page .odi-stack-ar-en .odi-en {
+    display: block;
+    font-size: 0.85em;
+    opacity: 0.9;
+}
+
+.odi-gcc-qr-slot {
+    /* Placement only — native EDI fills QR content */
+    display: inline-block;
+    vertical-align: top;
+}
+
+.odi-fs-stub {
+    padding: 12mm 8mm;
+}

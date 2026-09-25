@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_odi_gcc_bilingual" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.odi.gcc.bilingual</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='account']" position="inside">
+                <block title="GCC Arabic Bilingual Reports"
+                       name="odi_gcc_bilingual_reports_settings"
+                       id="odi_gcc_bilingual_reports_settings">
+                    <setting id="odi_report_lang_mode_setting"
+                             string="Statutory language mode"
+                             help="Bilingual stacks AR+EN labels; AR/EN only hide the other language.">
+                        <field name="odi_report_lang_mode"/>
+                    </setting>
+                    <setting id="odi_show_qr_slot_setting"
+                             string="QR placement slot"
+                             help="Reserve space for native EDI QR. This module does not generate QR/XML.">
+                        <field name="odi_show_qr_slot"/>
+                    </setting>
+                    <setting id="odi_show_cr_block_setting"
+                             string="Commercial registration block">
+                        <field name="odi_show_cr_block"/>
+                    </setting>
+                    <setting id="odi_show_building_district_setting"
+                             string="Building / district lines">
+                        <field name="odi_show_building_district"/>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

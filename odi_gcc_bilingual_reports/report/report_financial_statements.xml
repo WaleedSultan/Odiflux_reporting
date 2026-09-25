@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Financial statements Arabic PDF — stubs / placeholders for v1.
+
+        Targets: Trial Balance, P&amp;L, Balance Sheet
+        - Arabic company legal name (company.name_ar)
+        - Bilingual CoA labels (account.name_ar)
+        - Period headers + RTL-friendly amounts (SAR / AED / QAR)
+
+        Edition matrix:
+        - Enterprise: prefer extending / exporting from account_reports where cleanest
+        - Community: wizard PDF or limited custom reports — do NOT claim Enterprise-only
+                      features on Apps Store without edition label
+
+        Qatar v1 practical pack: Arabic TB/P&amp;L/BS only — no Ministry/QFMA filing packs.
+    -->
+
+    <!-- Placeholder report action — wire real QWeb / account_reports export in MVP days 4–6 -->
+    <record id="action_report_odi_trial_balance_ar" model="ir.actions.report">
+        <field name="name">Trial Balance (Arabic bilingual) — TODO</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odi_gcc_bilingual_reports.report_odi_trial_balance_ar</field>
+        <field name="report_file">odi_gcc_bilingual_reports.report_odi_trial_balance_ar</field>
+        <field name="print_report_name">'Trial Balance AR - %s' % (object.company_id.name_ar or object.company_id.name)</field>
+        <field name="binding_model_id" eval="False"/>
+        <field name="paperformat_id" ref="odi_gcc_bilingual_reports.paperformat_odi_gcc_bilingual_a4"/>
+    </record>
+
+    <record id="action_report_odi_profit_loss_ar" model="ir.actions.report">
+        <field name="name">Profit &amp; Loss (Arabic bilingual) — TODO</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odi_gcc_bilingual_reports.report_odi_profit_loss_ar</field>
+        <field name="report_file">odi_gcc_bilingual_reports.report_odi_profit_loss_ar</field>
+        <field name="binding_model_id" eval="False"/>
+        <field name="paperformat_id" ref="odi_gcc_bilingual_reports.paperformat_odi_gcc_bilingual_a4"/>
+    </record>
+
+    <record id="action_report_odi_balance_sheet_ar" model="ir.actions.report">
+        <field name="name">Balance Sheet (Arabic bilingual) — TODO</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odi_gcc_bilingual_reports.report_odi_balance_sheet_ar</field>
+        <field name="report_file">odi_gcc_bilingual_reports.report_odi_balance_sheet_ar</field>
+        <field name="binding_model_id" eval="False"/>
+        <field name="paperformat_id" ref="odi_gcc_bilingual_reports.paperformat_odi_gcc_bilingual_a4"/>
+    </record>
+
+    <template id="report_odi_trial_balance_ar">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page odi-gcc-bilingual-page odi-fs-stub">
+                    <h2>ميزان المراجعة / Trial Balance</h2>
+                    <p class="text-muted">
+                        TODO: implement lines from account balances with
+                        <code>account.name_ar</code> labels and company
+                        <code>name_ar</code>. Community vs Enterprise path TBD.
+                    </p>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_odi_profit_loss_ar">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page odi-gcc-bilingual-page odi-fs-stub">
+                    <h2>قائمة الدخل / Profit &amp; Loss</h2>
+                    <p class="text-muted">TODO: bilingual P&amp;L PDF stub — wire in FS sprint.</p>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_odi_balance_sheet_ar">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page odi-gcc-bilingual-page odi-fs-stub">
+                    <h2>الميزانية العمومية / Balance Sheet</h2>
+                    <p class="text-muted">TODO: bilingual Balance Sheet PDF stub — wire in FS sprint.</p>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
