@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Stock ABC Report - List View -->
+    <record id="stock_abc_report_view_list" model="ir.ui.view">
+        <field name="name">stock.abc.report.list</field>
+        <field name="model">stock.abc.report</field>
+        <field name="arch" type="xml">
+            <list string="ABC Classification Report" create="0" edit="0" delete="0"
+                  decoration-success="abc_class == 'A'"
+                  decoration-warning="abc_class == 'B'"
+                  decoration-muted="abc_class == 'C'">
+                <field name="rank"/>
+                <field name="product_id"/>
+                <field name="default_code" optional="show"/>
+                <field name="categ_id" optional="show"/>
+                <field name="warehouse_id"/>
+                <field name="consumption_qty" sum="Total Consumed"/>
+                <field name="unit_cost" optional="hide"/>
+                <field name="consumption_value" sum="Total Consumption Value"/>
+                <field name="value_pct"/>
+                <field name="cumulative_pct"/>
+                <field name="abc_class" widget="badge"
+                       decoration-success="abc_class == 'A'"
+                       decoration-warning="abc_class == 'B'"
+                       decoration-muted="abc_class == 'C'"/>
+                <field name="qty_on_hand" optional="show" sum="Total On Hand"/>
+                <field name="stock_value" optional="show" sum="Total Stock Value"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Stock ABC Report - Pivot View -->
+    <record id="stock_abc_report_view_pivot" model="ir.ui.view">
+        <field name="name">stock.abc.report.pivot</field>
+        <field name="model">stock.abc.report</field>
+        <field name="arch" type="xml">
+            <pivot string="ABC Classification Analysis" display_quantity="1">
+                <field name="abc_class" type="col"/>
+                <field name="categ_id" type="row"/>
+                <field name="consumption_value" type="measure"/>
+                <field name="stock_value" type="measure"/>
+                <field name="consumption_qty" type="measure"/>
+                <field name="qty_on_hand" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Stock ABC Report - Graph View -->
+    <record id="stock_abc_report_view_graph" model="ir.ui.view">
+        <field name="name">stock.abc.report.graph</field>
+        <field name="model">stock.abc.report</field>
+        <field name="arch" type="xml">
+            <graph string="ABC Classification" type="pie">
+                <field name="abc_class"/>
+                <field name="consumption_value" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Stock ABC Cumulative Graph (Pareto Curve) -->
+    <record id="stock_abc_report_view_graph_line" model="ir.ui.view">
+        <field name="name">stock.abc.report.graph.line</field>
+        <field name="model">stock.abc.report</field>
+        <field name="arch" type="xml">
+            <graph string="Pareto Curve" type="line">
+                <field name="rank"/>
+                <field name="cumulative_pct" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Stock ABC Report - Search View -->
+    <record id="stock_abc_report_view_search" model="ir.ui.view">
+        <field name="name">stock.abc.report.search</field>
+        <field name="model">stock.abc.report</field>
+        <field name="arch" type="xml">
+            <search string="ABC Classification Search">
+                <field name="product_id"/>
+                <field name="default_code"/>
+                <field name="categ_id"/>
+                <field name="warehouse_id"/>
+                <separator/>
+                <filter name="filter_class_a" string="Class A" domain="[('abc_class', '=', 'A')]"/>
+                <filter name="filter_class_b" string="Class B" domain="[('abc_class', '=', 'B')]"/>
+                <filter name="filter_class_c" string="Class C" domain="[('abc_class', '=', 'C')]"/>
+                <separator/>
+                <filter name="filter_high_value" string="High Value (Top 20%)" domain="[('cumulative_pct', '&lt;=', 80)]"/>
+                <filter name="filter_with_stock" string="With Stock" domain="[('qty_on_hand', '&gt;', 0)]"/>
+                <filter name="filter_no_consumption" string="No Consumption" domain="[('consumption_qty', '=', 0)]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="groupby_abc_class" string="ABC Class" context="{'group_by': 'abc_class'}"/>
+                    <filter name="groupby_category" string="Category" context="{'group_by': 'categ_id'}"/>
+                    <filter name="groupby_warehouse" string="Warehouse" context="{'group_by': 'warehouse_id'}"/>
+                    <filter name="groupby_company" string="Company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Stock ABC Report - Action -->
+    <record id="action_stock_abc_report" model="ir.actions.act_window">
+        <field name="name">ABC Classification</field>
+        <field name="res_model">stock.abc.report</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="search_view_id" ref="stock_abc_report_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No ABC classification data available
+            </p>
+            <p>
+                ABC classification ranks products by consumption value (Pareto principle).
+                <ul>
+                    <li><strong>Class A:</strong> Top ~20% of products representing ~80% of value</li>
+                    <li><strong>Class B:</strong> Next ~30% of products representing ~15% of value</li>
+                    <li><strong>Class C:</strong> Bottom ~50% of products representing ~5% of value</li>
+                </ul>
+            </p>
+        </field>
+    </record>
+
+</odoo>

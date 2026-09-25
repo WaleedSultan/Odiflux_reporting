@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- 
+            Default Configuration Data
+            ==========================
+            Creates default thresholds for the main company on module installation.
+            noupdate=1 ensures these won't be overwritten on module upgrade.
+        -->
+
+        <!-- Default configuration will be created by the model's get_config() method -->
+        <!-- This file is a placeholder for future default data needs -->
+
+        <!-- 
+            Future considerations:
+            - Email digest templates for stock alerts
+            - Scheduled actions for periodic reports
+            - Dashboard presets
+        -->
+
+    </data>
+</odoo>

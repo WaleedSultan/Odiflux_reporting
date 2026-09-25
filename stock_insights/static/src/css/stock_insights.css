@@ -1,0 +1,98 @@
+/*
+ * Stock Insights - Custom Styles
+ * ==============================
+ * 
+ * Minimal CSS for enhanced report display.
+ * Uses Odoo's built-in decoration classes where possible.
+ */
+
+/* KPI Card enhancements (for future dashboard client action) */
+.o_stock_insights_kpi_card {
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    background: var(--o-view-background-color, #fff);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.o_stock_insights_kpi_value {
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.o_stock_insights_kpi_label {
+    font-size: 0.875rem;
+    color: var(--o-gray-600, #6c757d);
+    margin-top: 4px;
+}
+
+/* Status badges with semantic colors */
+.o_stock_insights_status_critical {
+    background-color: var(--o-danger, #dc3545) !important;
+    color: #fff !important;
+}
+
+.o_stock_insights_status_low {
+    background-color: var(--o-warning, #ffc107) !important;
+    color: #212529 !important;
+}
+
+.o_stock_insights_status_normal {
+    background-color: var(--o-success, #28a745) !important;
+    color: #fff !important;
+}
+
+.o_stock_insights_status_excess {
+    background-color: var(--o-info, #17a2b8) !important;
+    color: #fff !important;
+}
+
+/* ABC Class visual indicators */
+.o_stock_insights_class_a {
+    border-left: 4px solid var(--o-success, #28a745);
+}
+
+.o_stock_insights_class_b {
+    border-left: 4px solid var(--o-warning, #ffc107);
+}
+
+.o_stock_insights_class_c {
+    border-left: 4px solid var(--o-gray-500, #adb5bd);
+}
+
+/* Aging band color legend */
+.o_stock_insights_aging_legend {
+    display: flex;
+    gap: 16px;
+    padding: 8px 0;
+    font-size: 0.875rem;
+}
+
+.o_stock_insights_aging_legend_item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.o_stock_insights_aging_legend_color {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+}
+
+.o_stock_insights_aging_0_30 {
+    background-color: var(--o-success, #28a745);
+}
+
+.o_stock_insights_aging_31_60 {
+    background-color: var(--o-info, #17a2b8);
+}
+
+.o_stock_insights_aging_61_90 {
+    background-color: var(--o-warning, #ffc107);
+}
+
+.o_stock_insights_aging_90_plus {
+    background-color: var(--o-danger, #dc3545);
+}

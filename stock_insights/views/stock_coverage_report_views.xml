@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Stock Coverage Report - List View -->
+    <record id="stock_coverage_report_view_list" model="ir.ui.view">
+        <field name="name">stock.coverage.report.list</field>
+        <field name="model">stock.coverage.report</field>
+        <field name="arch" type="xml">
+            <list string="Stock Coverage Report" create="0" edit="0" delete="0"
+                  decoration-danger="coverage_status == 'critical' or below_min"
+                  decoration-warning="coverage_status == 'low'"
+                  decoration-info="coverage_status in ('high', 'excess') or above_max">
+                <field name="product_id"/>
+                <field name="default_code" optional="show"/>
+                <field name="categ_id" optional="show"/>
+                <field name="warehouse_id"/>
+                <field name="location_id" optional="hide"/>
+                <field name="qty_on_hand" sum="Total"/>
+                <field name="qty_available" optional="hide"/>
+                <field name="stock_value" sum="Total" optional="show"/>
+                <!-- Orderpoint -->
+                <field name="has_orderpoint" widget="boolean" optional="hide"/>
+                <field name="product_min_qty"/>
+                <field name="product_max_qty" optional="hide"/>
+                <field name="below_min" widget="boolean" optional="show"/>
+                <field name="above_max" widget="boolean" optional="hide"/>
+                <field name="qty_to_order" optional="show"
+                       decoration-danger="qty_to_order > 0"/>
+                <!-- Coverage -->
+                <field name="avg_daily_consumption" optional="show"/>
+                <field name="days_of_cover"/>
+                <field name="coverage_status" widget="badge"
+                       decoration-danger="coverage_status == 'critical'"
+                       decoration-warning="coverage_status == 'low'"
+                       decoration-success="coverage_status == 'normal'"
+                       decoration-info="coverage_status in ('high', 'excess')"
+                       decoration-muted="coverage_status == 'no_consumption'"/>
+                <!-- Forecasted -->
+                <field name="incoming_qty" optional="show"/>
+                <field name="outgoing_qty" optional="show"/>
+                <field name="forecasted_qty" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Stock Coverage Report - Pivot View -->
+    <record id="stock_coverage_report_view_pivot" model="ir.ui.view">
+        <field name="name">stock.coverage.report.pivot</field>
+        <field name="model">stock.coverage.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Coverage Analysis" display_quantity="1">
+                <field name="coverage_status" type="col"/>
+                <field name="categ_id" type="row"/>
+                <field name="stock_value" type="measure"/>
+                <field name="qty_on_hand" type="measure"/>
+                <field name="days_of_cover" type="measure"/>
+                <field name="qty_to_order" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Stock Coverage Report - Graph View -->
+    <record id="stock_coverage_report_view_graph" model="ir.ui.view">
+        <field name="name">stock.coverage.report.graph</field>
+        <field name="model">stock.coverage.report</field>
+        <field name="arch" type="xml">
+            <graph string="Coverage Distribution" type="pie">
+                <field name="coverage_status"/>
+                <field name="stock_value" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Stock Coverage Bar Chart -->
+    <record id="stock_coverage_report_view_graph_bar" model="ir.ui.view">
+        <field name="name">stock.coverage.report.graph.bar</field>
+        <field name="model">stock.coverage.report</field>
+        <field name="arch" type="xml">
+            <graph string="Stock vs Reorder Levels" type="bar">
+                <field name="categ_id"/>
+                <field name="qty_on_hand" type="measure"/>
+                <field name="product_min_qty" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Stock Coverage Report - Search View -->
+    <record id="stock_coverage_report_view_search" model="ir.ui.view">
+        <field name="name">stock.coverage.report.search</field>
+        <field name="model">stock.coverage.report</field>
+        <field name="arch" type="xml">
+            <search string="Stock Coverage Search">
+                <field name="product_id"/>
+                <field name="default_code"/>
+                <field name="categ_id"/>
+                <field name="warehouse_id"/>
+                <separator/>
+                <!-- Coverage Status Filters -->
+                <filter name="filter_critical" string="Critical (&lt; 7 days)" domain="[('coverage_status', '=', 'critical')]"/>
+                <filter name="filter_low" string="Low (7-14 days)" domain="[('coverage_status', '=', 'low')]"/>
+                <filter name="filter_normal" string="Normal (14-60 days)" domain="[('coverage_status', '=', 'normal')]"/>
+                <filter name="filter_high" string="High (60-90 days)" domain="[('coverage_status', '=', 'high')]"/>
+                <filter name="filter_excess" string="Excess (&gt; 90 days)" domain="[('coverage_status', '=', 'excess')]"/>
+                <filter name="filter_no_consumption" string="No Consumption Data" domain="[('coverage_status', '=', 'no_consumption')]"/>
+                <separator/>
+                <!-- Reorder Status Filters -->
+                <filter name="filter_below_min" string="Below Minimum" domain="[('below_min', '=', True)]"/>
+                <filter name="filter_above_max" string="Above Maximum" domain="[('above_max', '=', True)]"/>
+                <filter name="filter_has_orderpoint" string="Has Reorder Rule" domain="[('has_orderpoint', '=', True)]"/>
+                <filter name="filter_no_orderpoint" string="No Reorder Rule" domain="[('has_orderpoint', '=', False)]"/>
+                <separator/>
+                <filter name="filter_needs_reorder" string="Needs Reorder" 
+                        domain="['|', ('below_min', '=', True), ('coverage_status', 'in', ['critical', 'low'])]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="groupby_coverage" string="Coverage Status" context="{'group_by': 'coverage_status'}"/>
+                    <filter name="groupby_category" string="Category" context="{'group_by': 'categ_id'}"/>
+                    <filter name="groupby_warehouse" string="Warehouse" context="{'group_by': 'warehouse_id'}"/>
+                    <filter name="groupby_location" string="Location" context="{'group_by': 'location_id'}"/>
+                    <filter name="groupby_company" string="Company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Stock Coverage Report - Action -->
+    <record id="action_stock_coverage_report" model="ir.actions.act_window">
+        <field name="name">Coverage &amp; Reorder</field>
+        <field name="res_model">stock.coverage.report</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="search_view_id" ref="stock_coverage_report_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No coverage data available
+            </p>
+            <p>
+                This report analyzes stock coverage (days of inventory) and compares
+                current stock levels against reorder points.
+                <ul>
+                    <li><strong>Critical:</strong> Less than 7 days of stock remaining</li>
+                    <li><strong>Low:</strong> 7-14 days of stock remaining</li>
+                    <li><strong>Normal:</strong> 14-60 days of coverage</li>
+                    <li><strong>High/Excess:</strong> More than 60 days of coverage</li>
+                </ul>
+            </p>
+        </field>
+    </record>
+
+    <!-- Action for Below Min products -->
+    <record id="action_stock_coverage_below_min" model="ir.actions.act_window">
+        <field name="name">Below Reorder Point</field>
+        <field name="res_model">stock.coverage.report</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="search_view_id" ref="stock_coverage_report_view_search"/>
+        <field name="domain">[('below_min', '=', True)]</field>
+        <field name="context">{'search_default_filter_below_min': 1}</field>
+    </record>
+
+</odoo>
