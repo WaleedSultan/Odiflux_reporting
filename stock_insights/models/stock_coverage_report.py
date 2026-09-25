@@ -280,8 +280,8 @@ class StockCoverageReport(models.Model):
                 soh.qty_on_hand,
                 soh.qty_reserved,
                 soh.qty_on_hand - soh.qty_reserved AS qty_available,
-                pt.standard_price AS unit_cost,
-                soh.qty_on_hand * pt.standard_price AS stock_value,
+                pp.standard_price AS unit_cost,
+                soh.qty_on_hand * pp.standard_price AS stock_value,
                 -- Orderpoint
                 op.product_min_qty IS NOT NULL AS has_orderpoint,
                 COALESCE(op.product_min_qty, 0) AS product_min_qty,

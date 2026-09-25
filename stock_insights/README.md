@@ -106,7 +106,7 @@ The report models use `_auto = False` to create PostgreSQL views rather than tab
 
 ### Odoo 19 Compatibility
 This module is fully compatible with Odoo 19, which removed `stock.valuation.layer`.
-Inventory valuation is now derived from `product.template.standard_price` (product cost)
+Inventory valuation is now derived from `product.product.standard_price` (variant cost)
 rather than the deprecated valuation layer model.
 
 ### Read-Only Design
