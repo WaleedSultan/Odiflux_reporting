@@ -6,6 +6,25 @@ A collection of professional analytics and reporting modules for Odoo Community 
 
 ## Available Modules
 
+### 🧾 [GCC Arabic Bilingual Reports](./odi_gcc_bilingual_reports/)
+
+Arabic/English bilingual invoices and financial statements for GCC/KSA markets:
+
+- **Bilingual Tax Invoices** - AR/EN side-by-side statutory layout for Tax Invoices, Simplified Invoices, Credit Notes, Debit Notes
+- **Arabic Master Data** - Company, partner, CoA, and product name_ar fields with EN fallback
+- **Financial Statements** - Bilingual Trial Balance, P&L, Balance Sheet (Enterprise: extends account_reports; Community: PDF export)
+- **QR Placement** - Renders native ZATCA QR when `l10n_sa_edi` is installed; no crash without it
+
+**Scope:** Reports only — no EDI/ZATCA clearance, no XML generation, no CSID. Works alongside native localizations.
+
+**[View Documentation →](./odi_gcc_bilingual_reports/README.rst)**
+
+### 🧾 [GCC Arabic Bilingual POS Receipts](./odi_gcc_bilingual_reports_pos/) *(optional)*
+
+Companion module for bilingual AR/EN POS receipt templates. Requires `point_of_sale`.
+
+**[View Documentation →](./odi_gcc_bilingual_reports_pos/README.rst)**
+
 ### 📊 [Stock Insights](./stock_insights/)
 
 Inventory Business Intelligence & Reporting module providing:
@@ -33,11 +52,13 @@ Inventory Business Intelligence & Reporting module providing:
 
 ## Compatibility
 
-| Module | Odoo 19 Community | Odoo 19 Enterprise |
-|--------|-------------------|-------------------|
-| Stock Insights | ✅ | ✅ |
+| Module | Odoo 19 Community | Odoo 19 Enterprise | Notes |
+|--------|-------------------|-------------------|-------|
+| GCC Arabic Bilingual Reports | ✅ | ✅ | FS reports: Enterprise extends `account_reports`; Community uses PDF wizard |
+| GCC Arabic Bilingual POS | ✅ | ✅ | Requires `point_of_sale` |
+| Stock Insights | ✅ | ✅ | |
 
-All modules are designed to work on both Community and Enterprise editions without requiring Enterprise-only dependencies.
+All modules are designed for Odoo 19 first. Ports to Odoo 17 and 18 are planned.
 
 ## Planned Modules
 
@@ -45,6 +66,8 @@ The Odiflux Reporting suite will expand to include:
 
 | Module | Description | Status |
 |--------|-------------|--------|
+| GCC Arabic Bilingual Reports | AR/EN invoices & financial statements | ✅ Available |
+| GCC Arabic Bilingual POS | AR/EN POS receipt companion | ✅ Available |
 | Stock Insights | Inventory BI & reporting | ✅ Available |
 | Sales Insights | Sales analytics & forecasting | 🔜 Planned |
 | Finance Insights | Financial KPIs & reporting | 🔜 Planned |

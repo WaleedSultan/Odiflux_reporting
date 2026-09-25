@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Placeholder Accounting menus for Arabic FS actions.
+        Wire wizards / date filters in FS sprint; keep inactive until ready
+        so install does not expose broken print buttons.
+    -->
+    <menuitem id="menu_odi_gcc_bilingual_root"
+              name="GCC Bilingual Reports"
+              parent="account.menu_finance_reports"
+              sequence="90"
+              groups="account.group_account_readonly"/>
+
+    <menuitem id="menu_odi_trial_balance_ar"
+              name="Trial Balance (AR) — TODO"
+              parent="menu_odi_gcc_bilingual_root"
+              action="action_report_odi_trial_balance_ar"
+              sequence="10"
+              active="False"/>
+
+    <menuitem id="menu_odi_profit_loss_ar"
+              name="Profit &amp; Loss (AR) — TODO"
+              parent="menu_odi_gcc_bilingual_root"
+              action="action_report_odi_profit_loss_ar"
+              sequence="20"
+              active="False"/>
+
+    <menuitem id="menu_odi_balance_sheet_ar"
+              name="Balance Sheet (AR) — TODO"
+              parent="menu_odi_gcc_bilingual_root"
+              action="action_report_odi_balance_sheet_ar"
+              sequence="30"
+              active="False"/>
+</odoo>
