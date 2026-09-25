@@ -104,6 +104,11 @@ The report models use `_auto = False` to create PostgreSQL views rather than tab
 - No additional storage overhead
 - Efficient aggregation using database engine
 
+### Odoo 19 Compatibility
+This module is fully compatible with Odoo 19, which removed `stock.valuation.layer`.
+Inventory valuation is now derived from `product.template.standard_price` (product cost)
+rather than the deprecated valuation layer model.
+
 ### Read-Only Design
 Stock Insights is designed for analytics only. It does not:
 - Create or modify stock moves

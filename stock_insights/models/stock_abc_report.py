@@ -162,7 +162,7 @@ class StockABCReport(models.Model):
                     pp.product_tmpl_id,
                     pp.default_code,
                     pt.categ_id,
-                    COALESCE((pp.standard_price->>COALESCE(cd.company_id, soh.company_id)::text)::numeric, 0) AS unit_cost
+                    pt.standard_price AS unit_cost
                 FROM consumption_data cd
                 FULL OUTER JOIN stock_on_hand soh 
                     ON cd.product_id = soh.product_id 

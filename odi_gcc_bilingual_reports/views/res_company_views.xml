@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_company_form_odi_gcc_bilingual" model="ir.ui.view">
+        <field name="name">res.company.form.odi.gcc.bilingual</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="after">
+                <separator string="Arabic / Bilingual Statutory Prints"/>
+                <field name="name_ar" placeholder="الاسم القانوني بالعربية"/>
+                <field name="street_ar" placeholder="الشارع"/>
+                <field name="street2_ar"/>
+                <field name="district_ar" placeholder="الحي"/>
+                <field name="building_number_ar" placeholder="رقم المبنى"/>
+                <field name="city_ar" placeholder="المدينة"/>
+                <field name="partner_address_ar"
+                        placeholder="Optional free-form Arabic address block"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

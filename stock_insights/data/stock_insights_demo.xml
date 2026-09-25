@@ -39,7 +39,7 @@
             1. stock.quant records (current inventory levels)
             2. stock.move records (historical movements for aging/consumption)
             3. stock.warehouse.orderpoint records (reorder rules)
-            4. product.product.standard_price (company-dependent cost values)
+            4. product.template standard_price (product cost)
             
             No additional product or movement data needs to be created here.
             The reports will reflect whatever demo data exists in the stock module.

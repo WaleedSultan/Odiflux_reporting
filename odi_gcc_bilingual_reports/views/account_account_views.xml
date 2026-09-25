@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_form_odi_gcc_bilingual" model="ir.ui.view">
+        <field name="name">account.account.form.odi.gcc.bilingual</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="name_ar" placeholder="اسم الحساب بالعربية"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- list view: Odoo 17+ uses <list>; keep compatible with account list inherit -->
+    <record id="view_account_list_odi_gcc_bilingual" model="ir.ui.view">
+        <field name="name">account.account.list.odi.gcc.bilingual</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="name_ar" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

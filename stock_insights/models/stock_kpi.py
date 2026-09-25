@@ -154,7 +154,7 @@ class StockKPI(models.Model):
                     sl.warehouse_id,
                     sq.product_id,
                     SUM(sq.quantity) AS qty_on_hand,
-                    COALESCE((pp.standard_price->>sq.company_id::text)::numeric, 0) AS unit_cost
+                    pt.standard_price AS unit_cost
                 FROM stock_quant sq
                 JOIN stock_location sl ON sl.id = sq.location_id
                 JOIN product_product pp ON pp.id = sq.product_id
@@ -389,7 +389,7 @@ class StockKPIProduct(models.Model):
                     pp.product_tmpl_id,
                     pt.categ_id,
                     SUM(sq.quantity) AS qty_on_hand,
-                    COALESCE((pp.standard_price->>sq.company_id::text)::numeric, 0) AS unit_cost
+                    pt.standard_price AS unit_cost
                 FROM stock_quant sq
                 JOIN stock_location sl ON sl.id = sq.location_id
                 JOIN product_product pp ON pp.id = sq.product_id

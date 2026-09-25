@@ -1,0 +1,38 @@
+# Arabic labels for odi_gcc_bilingual_reports (module strings only — not full Odoo UI).
+msgid ""
+msgstr ""
+"Project-Id-Version: odi_gcc_bilingual_reports 19.0.1.0.0\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Arabic Company Name"
+msgstr "اسم الشركة بالعربية"
+
+msgid "Arabic Name"
+msgstr "الاسم بالعربية"
+
+msgid "Arabic Account Name"
+msgstr "اسم الحساب بالعربية"
+
+msgid "Statutory Report Language Mode"
+msgstr "وضع لغة التقارير النظامية"
+
+msgid "Bilingual (AR + EN)"
+msgstr "ثنائي اللغة (عربي + إنجليزي)"
+
+msgid "Arabic only"
+msgstr "العربية فقط"
+
+msgid "English only"
+msgstr "الإنجليزية فقط"
+
+msgid "Show QR Placement Slot"
+msgstr "إظهار موضع رمز الاستجابة السريعة"
+
+msgid "GCC Arabic Bilingual Reports"
+msgstr "تقارير الخليج النظامية ثنائية اللغة"
+
+msgid "Arabic Product Name"
+msgstr "اسم المنتج بالعربية"

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_odi_gcc_bilingual" model="ir.ui.view">
+        <field name="name">res.partner.form.odi.gcc.bilingual</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="after">
+                <group string="Arabic / Bilingual" name="odi_gcc_ar">
+                    <field name="name_ar" placeholder="الاسم بالعربية"/>
+                    <field name="street_ar"/>
+                    <field name="street2_ar"/>
+                    <field name="district_ar"/>
+                    <field name="building_number_ar"/>
+                    <field name="city_ar"/>
+                    <field name="partner_address_ar"
+                            placeholder="Optional free-form Arabic address"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

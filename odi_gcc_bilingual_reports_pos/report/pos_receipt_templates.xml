@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Bilingual / stacked AR+EN POS receipt stub.
+        Toggle later via settings or pos.config.
+        Do not reimplement ZATCA POS EDI (l10n_sa_pos).
+    -->
+
+    <!-- Odoo 19 POS receipts are largely OWL/frontend; keep a QWeb-compatible
+         inherit hook where older OrderReceipt XML still applies, plus a clear
+         TODO for the JS OrderReceipt extension path. -->
+
+    <template id="odi_pos_receipt_bilingual_stub" name="ODI GCC Bilingual POS Receipt Stub">
+        <div class="odi-pos-receipt-bilingual"
+             style="font-family: 'ODIArabic', sans-serif; direction: rtl;">
+            <div class="odi-ar" t-esc="company.name_ar or company.name"/>
+            <div class="odi-en" style="direction: ltr; font-size: 0.85em;"
+                 t-esc="company.name"/>
+            <div t-if="company.vat">
+                <span>الرقم الضريبي / VAT: </span>
+                <span t-esc="company.vat"/>
+            </div>
+            <div t-if="company.street_ar or company.street"
+                 t-esc="company.street_ar or company.street"/>
+            <div t-if="company.city_ar or company.city"
+                 t-esc="company.city_ar or company.city"/>
+            <hr/>
+            <p class="text-muted" style="font-size: 0.8em;">
+                TODO: wire into POS OrderReceipt (OWL) — stack AR/EN lines,
+                respect odi_report_lang_mode, keep native QR from l10n_sa_pos.
+            </p>
+        </div>
+    </template>
+
+    <!--
+        If a QWeb OrderReceipt template xml id exists on the deployed POS
+        version, inherit it here. Odoo 17–19 moved heavily to JS; verify
+        xml id on target build before enabling xpath (commented safely).
+
+        Example (enable after confirming inherit_id on your Odoo 19 build):
+
+        <template id="odi_pos_order_receipt_inherit"
+                  inherit_id="point_of_sale.order_receipt">
+            <xpath expr="//div[hasclass('pos-receipt')]" position="inside">
+                <t t-call="odi_gcc_bilingual_reports_pos.odi_pos_receipt_bilingual_stub"/>
+            </xpath>
+        </template>
+    -->
+</odoo>
