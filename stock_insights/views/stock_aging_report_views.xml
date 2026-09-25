@@ -86,7 +86,7 @@
                 <separator/>
                 <filter name="filter_old_stock" string="Old Stock (60+ Days)" domain="[('stock_age_days', '&gt;=', 60)]"/>
                 <separator/>
-                <group expand="0" string="Group By">
+                <group>
                     <filter name="groupby_aging_band" string="Aging Band" context="{'group_by': 'aging_band'}"/>
                     <filter name="groupby_category" string="Category" context="{'group_by': 'categ_id'}"/>
                     <filter name="groupby_warehouse" string="Warehouse" context="{'group_by': 'warehouse_id'}"/>

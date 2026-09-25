@@ -70,7 +70,7 @@
                 <filter name="filter_has_issues" string="Has Issues" 
                         domain="['|', '|', '|', ('out_of_stock_skus', '>', 0), ('low_stock_skus', '>', 0), ('overstock_skus', '>', 0), ('dead_stock_skus', '>', 0)]"/>
                 <separator/>
-                <group expand="0" string="Group By">
+                <group>
                     <filter name="groupby_warehouse" string="Warehouse" context="{'group_by': 'warehouse_id'}"/>
                     <filter name="groupby_company" string="Company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
                 </group>
@@ -174,7 +174,7 @@
                 <filter name="filter_needs_attention" string="Needs Attention" 
                         domain="[('stock_status', 'in', ['out_of_stock', 'low_stock', 'dead_stock'])]"/>
                 <separator/>
-                <group expand="0" string="Group By">
+                <group>
                     <filter name="groupby_status" string="Stock Status" context="{'group_by': 'stock_status'}"/>
                     <filter name="groupby_category" string="Category" context="{'group_by': 'categ_id'}"/>
                     <filter name="groupby_warehouse" string="Warehouse" context="{'group_by': 'warehouse_id'}"/>

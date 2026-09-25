@@ -113,7 +113,7 @@
                 <filter name="filter_needs_reorder" string="Needs Reorder" 
                         domain="['|', ('below_min', '=', True), ('coverage_status', 'in', ['critical', 'low'])]"/>
                 <separator/>
-                <group expand="0" string="Group By">
+                <group>
                     <filter name="groupby_coverage" string="Coverage Status" context="{'group_by': 'coverage_status'}"/>
                     <filter name="groupby_category" string="Category" context="{'group_by': 'categ_id'}"/>
                     <filter name="groupby_warehouse" string="Warehouse" context="{'group_by': 'warehouse_id'}"/>

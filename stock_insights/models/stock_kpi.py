@@ -161,7 +161,7 @@ class StockKPI(models.Model):
                 JOIN product_template pt ON pt.id = pp.product_tmpl_id
                 WHERE sl.usage = 'internal'
                   AND pt.type = 'product'
-                GROUP BY sq.company_id, sl.warehouse_id, sq.product_id, pt.standard_price
+                GROUP BY sq.company_id, sl.warehouse_id, sq.product_id, COALESCE((pp.standard_price->>sq.company_id::text)::numeric, 0)
                 HAVING SUM(sq.quantity) != 0
             ),
             consumption_90d AS (
@@ -397,7 +397,7 @@ class StockKPIProduct(models.Model):
                 WHERE sl.usage = 'internal'
                   AND pt.type = 'product'
                 GROUP BY sq.company_id, sl.warehouse_id, sq.product_id, 
-                         pp.product_tmpl_id, pt.categ_id, pt.standard_price
+                         pp.product_tmpl_id, pt.categ_id, COALESCE((pp.standard_price->>sq.company_id::text)::numeric, 0)
             ),
             consumption_90d AS (
                 SELECT
